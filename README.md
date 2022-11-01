@@ -1,6 +1,8 @@
 # book_store
 
-A new Flutter project.
+인프런 Flutter 인강 실습앱
+
+구글 API를 이용한 도서 검색 앱
 
 ## Getting Started
 
