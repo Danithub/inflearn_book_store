@@ -1,9 +1,18 @@
 // ignore_for_file: sort_child_properties_last
 
+import 'package:book_store/book_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => BookService()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,84 +27,59 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  var searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Book Store',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.start,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: false,
+        title: Text(
+          "Book Store",
+          style: TextStyle(
+              fontSize: 24, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        actions: [
+          Container(
+            alignment: Alignment.bottomCenter,
+            padding: EdgeInsets.only(right: 12),
+            child: Text(
+              "total 40",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+              ),
+            ),
+          )
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 72),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                hintText: "원하시는 책을 검색해주세요.",
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
                 ),
-                Align(
-                  child: Text(
-                    "total 40",
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  alignment: Alignment.centerRight,
+                suffixIcon: IconButton(
+                  onPressed: () {},
+                  icon: Icon(Icons.search),
                 ),
-                SizedBox(
-                  height: 100,
-                  child: TextField(
-                    style: TextStyle(fontSize: 20, height: 2),
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      ),
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.blueAccent, width: 1.0),
-                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      ),
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.blueAccent, width: 2.0),
-                        borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                      ),
-                      suffixIcon: Icon(
-                        Icons.search,
-                        color: Colors.blueAccent,
-                      ),
-                    ),
-                  ),
-                ),
-                // ListView.separated(
-                //     itemBuilder: (context, index) {
-                //       return Row(
-                //         children: [
-                //           Image.network(""),
-                //           Column(
-                //             children: [
-                //               Text("title"),
-                //               Text("description"),
-                //             ],
-                //           ),
-                //         ],
-                //       );
-                //     },
-                //     separatorBuilder: (context, index) {
-                //       return SizedBox(
-                //         height: 12,
-                //       );
-                //     },
-                //     itemCount: 1),
-              ]),
+              ),
+              onSubmitted: (value) {},
+            ),
+          ),
         ),
       ),
     );
